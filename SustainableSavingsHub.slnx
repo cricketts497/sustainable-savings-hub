@@ -1,0 +1,5 @@
+<Solution>
+  <Folder Name="/apps/">
+    <Project Path="apps/backend-functions/backend-functions.csproj" />
+  </Folder>
+</Solution>
