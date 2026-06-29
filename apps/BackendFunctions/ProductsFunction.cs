@@ -19,7 +19,9 @@ namespace SustainableSavingsHub.BackendFunctions
                 new { Id = 2, Name = "Sustained Growth Bond", Provider = "Ethical Trust", Rate = 4.85 }
             };
 
-            return new OkObjectResult(mockProducts);
+            var response = req.CreateResponse(System.Net.HttpStatusCode.OK);
+            await response.WriteAsJsonAsync(mockProducts);
+            return response;
         }
     }
 }
