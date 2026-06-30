@@ -7,11 +7,24 @@ namespace ProxyAdapters.Internal
     internal class NetworkProxyAdapter(INetworkProxy networkProxy)
         : INetworkProxyAdapter
     {
-        public async Task<BankProduct> GetProductsAsync()
+        public async Task<IEnumerable<BankProduct>> GetProductsAsync()
         {
-            var result = await networkProxy.GetProductsAsync();
+            var response = await networkProxy.GetProductsAsync();
 
-            return new BankProduct();
+            return response.Data
+                .SelectMany(brandContainer => brandContainer.Brand)
+                .SelectMany(brand => brand.Pca.Select(product => new BankProduct
+                {
+                    Id = product.Identification,
+                    ProviderId = brand.BrandName,
+                    Name = product.Name,
+                    Features = product.PcaMarketingState
+                        .SelectMany(state => state.FeaturesAndBenefits?.FeatureBenefitItem ?? [])
+                        .Select(feature => feature.Name)
+                        .Where(name => !string.IsNullOrWhiteSpace(name))
+                        .Distinct(StringComparer.OrdinalIgnoreCase)
+                        .ToList()
+                }));
         }
     }
 }

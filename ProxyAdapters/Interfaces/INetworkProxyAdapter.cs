@@ -4,6 +4,6 @@ namespace ProxyAdapters.Interfaces
 {
     public interface INetworkProxyAdapter
     {
-        public Task<BankProduct> GetProductsAsync();
+        public Task<IEnumerable<BankProduct>> GetProductsAsync();
     }
 }
