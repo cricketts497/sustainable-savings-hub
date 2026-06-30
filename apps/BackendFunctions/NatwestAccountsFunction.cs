@@ -2,11 +2,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
-using NetworkProxies.Interfaces;
+using ProxyAdapters.Interfaces;
 
 namespace SustainableSavingsHub.BackendFunctions
 {
-    public class NatwestAccountsFunction(ILogger<NatwestAccountsFunction> logger, INetworkProxy natwestProxy)
+    public class NatwestAccountsFunction(ILogger<NatwestAccountsFunction> logger, INetworkProxyAdapter proxyAdapter)
     {
         [Function("GetNatwestPersonalCurrentAccounts")]
         public async Task<IActionResult> GetNatwestPersonalCurrentAccounts(
@@ -16,7 +16,7 @@ namespace SustainableSavingsHub.BackendFunctions
 
             try
             {
-                var responseBody = await natwestProxy.GetProductsAsync();
+                var responseBody = await proxyAdapter.GetProductsAsync();
 
                 logger.LogInformation("NatWest personal current accounts retrieved");
 

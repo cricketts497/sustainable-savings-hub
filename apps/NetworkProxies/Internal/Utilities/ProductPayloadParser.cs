@@ -1,7 +1,4 @@
 ﻿using NetworkProxies.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.Json;
 
 namespace NetworkProxies.Internal.Utilities

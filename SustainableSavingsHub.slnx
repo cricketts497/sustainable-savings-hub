@@ -2,5 +2,7 @@
   <Folder Name="/apps/">
     <Project Path="apps/BackendFunctions/backend-functions.csproj" />
     <Project Path="apps/NetworkProxies/NetworkProxies.csproj" Id="5abbbfd5-583c-462a-b2ad-e36950ca0d99" />
+    <Project Path="DomainModels/DomainModels.csproj" Id="19772159-e546-4ff8-a37d-a24a7295bd40" />
+    <Project Path="ProxyAdapters/ProxyAdapters.csproj" Id="08d44aef-2360-47de-b17e-6e8e7bab7f66" />
   </Folder>
 </Solution>
