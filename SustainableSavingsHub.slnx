@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/apps/">
     <Project Path="apps/BackendFunctions/backend-functions.csproj" />
+    <Project Path="apps/NetworkProxies/NetworkProxies.csproj" Id="5abbbfd5-583c-462a-b2ad-e36950ca0d99" />
   </Folder>
 </Solution>

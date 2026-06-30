@@ -1,56 +1,34 @@
-using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
+using NetworkProxies.Interfaces;
 
 namespace SustainableSavingsHub.BackendFunctions
 {
-    public class NatwestAccountsFunction(ILogger<NatwestAccountsFunction> logger, IHttpClientFactory httpClientFactory)
+    public class NatwestAccountsFunction(ILogger<NatwestAccountsFunction> logger, INetworkProxy natwestProxy)
     {
-        private const string NatwestEndpoint = "https://openapi.natwest.com/open-banking/v2.2/personal-current-accounts";
-
         [Function("GetNatwestPersonalCurrentAccounts")]
         public async Task<IActionResult> GetNatwestPersonalCurrentAccounts(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "natwest/personal-current-accounts")] HttpRequest req)
         {
-            logger.LogInformation("Fetching NatWest personal current accounts from {Endpoint}", NatwestEndpoint);
-
-            using var client = httpClientFactory.CreateClient();
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            logger.LogInformation("Fetching NatWest personal current accounts via network proxy");
 
             try
             {
-                using var response = await client.GetAsync(NatwestEndpoint);
-                var responseBody = await response.Content.ReadAsStringAsync();
+                var responseBody = await natwestProxy.GetProductsAsync();
 
-                logger.LogInformation(
-                    "NatWest personal current accounts response status: {StatusCode}. Body: {ResponseBody}",
-                    response.StatusCode,
-                    responseBody);
+                logger.LogInformation("NatWest personal current accounts retrieved. Body length: {Length}", responseBody?.Length ?? 0);
 
-                if (response.IsSuccessStatusCode)
+                return new OkObjectResult(new
                 {
-                    return new OkObjectResult(new
-                    {
-                        status = response.StatusCode.ToString(),
-                        body = responseBody
-                    });
-                }
-
-                return new ObjectResult(new
-                {
-                    status = response.StatusCode.ToString(),
+                    status = "OK",
                     body = responseBody
-                })
-                {
-                    StatusCode = (int)response.StatusCode
-                };
+                });
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Failed to retrieve NatWest personal current accounts");
+                logger.LogError(ex, "Failed to retrieve NatWest personal current accounts via proxy");
                 return new StatusCodeResult(StatusCodes.Status502BadGateway);
             }
         }
