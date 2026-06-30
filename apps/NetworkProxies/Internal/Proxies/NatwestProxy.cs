@@ -1,16 +1,19 @@
 ﻿using NetworkProxies.Interfaces;
+using NetworkProxies.Internal.Utilities;
+using NetworkProxies.Models;
 
-namespace NetworkProxies.Internal
+namespace NetworkProxies.Internal.Proxies
 {
     internal class NatwestProxy(HttpClient client)
         : INetworkProxy
     {
         private const string NatwestEndpoint = "https://openapi.natwest.com/open-banking/v2.2/personal-current-accounts";
 
-        public async Task<string> GetProductsAsync()
+        public async Task<OpenBankingPcaRoot> GetProductsAsync()
         {
             using var response = await client.GetAsync(NatwestEndpoint);
-            return await response.Content.ReadAsStringAsync();
+            var json = await response.Content.ReadAsStringAsync();
+            return ProductPayloadParser.Parse(json);
         }
     }
 }

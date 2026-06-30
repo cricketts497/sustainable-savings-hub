@@ -18,7 +18,7 @@ namespace SustainableSavingsHub.BackendFunctions
             {
                 var responseBody = await natwestProxy.GetProductsAsync();
 
-                logger.LogInformation("NatWest personal current accounts retrieved. Body length: {Length}", responseBody?.Length ?? 0);
+                logger.LogInformation("NatWest personal current accounts retrieved");
 
                 return new OkObjectResult(new
                 {

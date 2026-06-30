@@ -1,7 +1,9 @@
-﻿namespace NetworkProxies.Interfaces
+﻿using NetworkProxies.Models;
+
+namespace NetworkProxies.Interfaces
 {
     public interface INetworkProxy
     {
-        public Task<string> GetProductsAsync();
+        public Task<OpenBankingPcaRoot> GetProductsAsync();
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using NetworkProxies.Interfaces;
-using NetworkProxies.Internal;
+using NetworkProxies.Internal.Proxies;
 
 namespace NetworkProxies.DI
 {
