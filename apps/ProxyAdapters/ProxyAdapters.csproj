@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\apps\NetworkProxies\NetworkProxies.csproj" />
+    <ProjectReference Include="..\NetworkProxies\NetworkProxies.csproj" />
     <ProjectReference Include="..\DomainModels\DomainModels.csproj" />
   </ItemGroup>
 
